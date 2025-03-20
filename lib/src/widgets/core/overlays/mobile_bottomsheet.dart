@@ -213,9 +213,29 @@ class _MobileOverlayBottomControlles extends StatelessWidget {
                         _podCtr.calculateVideoDuration(_podCtr.videoPosition),
                         style: const TextStyle(color: itemColor),
                       ),
-                      const Text(
-                        ' / ',
-                        style: durationTextStyle,
+                      GetBuilder<PodGetXVideoController>(
+                        tag: tag,
+                        id: 'overlay',
+                        builder: (_podCtr) {
+                          if (_podCtr.isFullScreen) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(12, 0, 12, 20),
+                              child: Visibility(
+                                visible: _podCtr.isOverlayVisible,
+                                child: PodProgressBar(
+                                  tag: tag,
+                                  alignment: Alignment.topCenter,
+                                  podProgressBarConfig: _podCtr.podProgressBarConfig,
+                                ),
+                              ),
+                            );
+                          }
+                          return PodProgressBar(
+                            tag: tag,
+                            alignment: Alignment.bottomCenter,
+                            podProgressBarConfig: _podCtr.podProgressBarConfig,
+                          );
+                        },
                       ),
                       Text(
                         _podCtr.calculateVideoDuration(_podCtr.videoDuration),
@@ -251,30 +271,6 @@ class _MobileOverlayBottomControlles extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          GetBuilder<PodGetXVideoController>(
-            tag: tag,
-            id: 'overlay',
-            builder: (_podCtr) {
-              if (_podCtr.isFullScreen) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 20),
-                  child: Visibility(
-                    visible: _podCtr.isOverlayVisible,
-                    child: PodProgressBar(
-                      tag: tag,
-                      alignment: Alignment.topCenter,
-                      podProgressBarConfig: _podCtr.podProgressBarConfig,
-                    ),
-                  ),
-                );
-              }
-              return PodProgressBar(
-                tag: tag,
-                alignment: Alignment.bottomCenter,
-                podProgressBarConfig: _podCtr.podProgressBarConfig,
-              );
-            },
           ),
         ],
       ),
